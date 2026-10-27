@@ -167,3 +167,33 @@ class Atalho(Item):
         self.nome = nome
         self.destino = destino
         self.pai = pai
+    c = Pasta("c")
+    users = Pasta("users", c)
+    rafael = Pasta("rafael", users)
+    desktop = Pasta("desktop", rafael)
+    relatorio = Arquivo("relatorio.txt", 120, desktop)
+    foto = Arquivo("foto.png", 300, desktop)
+ 
+    atalho_arq = Atalho("atalho_relatorio", relatorio, desktop)
+    atalho_pasta = Atalho("atalho_docs", docs, desktop)
+ 
+    lixeira = Lixeira(c)
+    Arquivo("velho.tmp", 50, lixeira)
+ 
+    print("=== Árvore ===")
+    c.mostrar()
+ 
+    print("\n=== espaco_total ===")
+    lista = [foto, desktop, lixeira]
+    print(espaco_total(lista))   # 300 + (120+300+1+1) + 50 = 772
+ 
+    print("\n=== Tentativas que devem falhar ===")
+ 
+    def atribuir():
+        atalho_arq.destino = foto
+ 
+    tentar("atalho.destino = outro item", atribuir)
+    tentar("atalho apontando para si mesmo",
+           lambda: atalho_arq.redirecionar(atalho_arq))
+    tentar("atalho apontando para a pasta onde está",
+           lambda: atalho_arq.redirecionar(desktop))
