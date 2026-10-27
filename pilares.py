@@ -162,30 +162,8 @@ def tentar(rotulo, acao):
     except Exception as erro:
         print(rotulo, "->", type(erro).__name__ + ":", erro)
 
-
-disco = Pasta("C:")
-usuarios = Pasta("Users", disco)
-desktop = Pasta("Desktop", usuarios)
-trabalhos = Pasta("Trabalhos", desktop)
-notas = Arquivo("notas.txt", 120, desktop)
-tf = Arquivo("tf-09.py", 800, trabalhos)
-slide = Arquivo("slide.pdf", 5000, trabalhos)
-
-disco.mostrar()
-print(tf.caminho())                       # C:/Users/Desktop/Trabalhos/tf-09.py
-print(disco.tamanho())                    # 5920
-
-lixeira = Lixeira()
-lixeira.descartar(Arquivo("rascunho.txt", 40))
-print(espaco_total([notas, trabalhos, lixeira]))   # 120 + 5800 + 40 = 5960
-
-tentar("Item('x')", lambda: Item("x"))
-tentar("Medivel()", lambda: Medivel())
-tentar("Arquivo dentro de arquivo", lambda: Arquivo("a.txt", 1, tf))
-tentar("tf.pai = None", lambda: setattr(tf, "pai", None))
-tentar("tf.altura = 1.70", lambda: setattr(tf, "altura", 1.70))
-tentar("usuarios p/ dentro de si", lambda: usuarios.mover_para(trabalhos))
-
-tf.mover_para(desktop)
-print(tf.caminho())                       # C:/Users/Desktop/tf-09.py
-print(len(trabalhos.filhos), len(desktop.filhos))
+class Atalho(Item):
+    def __init__(self, nome, destino, pai=None):
+        self.nome = nome
+        self.destino = destino
+        self.pai = pai
